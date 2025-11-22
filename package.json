@@ -1,0 +1,16 @@
+{
+  "name": "vanys-bot",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.5",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "googleapis": "^144.0.0",
+    "openai": "^6.9.1"
+  }
+}
