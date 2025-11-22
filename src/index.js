@@ -185,7 +185,8 @@ client.on("messageCreate", async (message) => {
             const reply = await buildCustomReply(
                 playerName,
                 `Hello ${playerName}. It is good to have you here in Farhearth.`,
-                `The player is speaking to you casually or emotionally, but not about gold, deposits, balances, or history payments. Reply in character as Vanys: warm, friendly, gently humorous, curious about their well-being or any news from beyond Farhearth. Do NOT bring up gold or banking unless they do. You may mention a small, harmless detail about Farhearth's growth, like a new pie at the tavern or a slightly more comfortable chair.`
+                `The player is speaking to you casually or emotionally, but not about gold, deposits, balances, or history payments. Reply in character as Vanys: warm, friendly, gently humorous, curious about their well-being or any news from beyond Farhearth. Do NOT bring up gold or banking unless they do. You may mention a small, harmless detail about Farhearth's growth.`,
+                content
             );
 
             await message.reply(reply);
