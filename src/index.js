@@ -1,9 +1,5 @@
 require("dotenv").config();
 
-//testing only, remove later
-process.env.GOOGLE_APPLICATION_CREDENTIALS = "DISABLED";
-
-
 const { Client, GatewayIntentBits } = require("discord.js");
 const { depositGold, getAccount, withdrawGold } = require("./db");
 const {
@@ -18,13 +14,15 @@ const {
     isPaymentIntent,
     isBalanceRequest,
     isHistoryIntent,
-    extractGoldAmount
+    extractGoldAmount,
+    isAdventureRequest
 } = require("./intent");
+const path = require("path");
+const vanysKB = require(path.join(__dirname, "./vanys-kb.json"));
+const { createLinkButton } = require("./buttons");
+const { ADVENTURE_SIGNUP_URL, RECAP_URL, RECAP_RATE } = require("./APPCONSTANTS")
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-
-//Hardcoded for now.  May be settable later.
-const RECAP_RATE = 15
 
 if (!DISCORD_BOT_TOKEN) {
     console.error("DISCORD_BOT_TOKEN is not set");
@@ -42,6 +40,21 @@ const client = new Client({
 client.once("ready", () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
+
+function getSmallTalkTopicsFromKB() {
+    const topics = [];
+
+    if (vanysKB.locations) {
+        for (const [key, loc] of Object.entries(vanysKB.locations)) {
+            if (loc && loc.discovered && loc.short) {
+                topics.push(loc.short);
+            }
+        }
+    }
+
+    // You can cap this so the prompt doesn’t get huge
+    return topics.slice(0, 8);
+}
 
 //Message Handler
 client.on("messageCreate", async (message) => {
@@ -63,6 +76,7 @@ client.on("messageCreate", async (message) => {
 
         // 1) Hostile / abusive messages
         if (hostile) {
+            console.log('Hostile Intent determined')
             const reply = await buildCustomReply(
                 playerName,
                 `I'm sorry if I've upset you, ${playerName}. I never meant to cause you any distress.`,
@@ -73,28 +87,35 @@ client.on("messageCreate", async (message) => {
             return;
         }
 
-        // 2) History / recap intent (placeholder)
         // 2) History / recap intent – pay for recap and give link
         if (isHistoryIntent(content)) {
-            const recapLink = "https://www.westmarches.games/world-editor/epgora-the-blearwold/new/article";
+            console.log('History intent determined');
 
             // Pay the player RECAP_RATE gold for the recap
             const result = depositGold(message.author.id, playerName, RECAP_RATE);
-            const newBalance = result.balance;
 
-            const reply =
-                `Farhearth is better for your safe return, ${playerName}! Your tale will be added to the Chronicle.  You're helping to form Epgora's history.\n\n` +
-                `If you'd like to record your latest deeds for the historians, you can submit your recap here:\n` +
-                `${recapLink}\n\n` +
-                `As thanks for your efforts, I've added ${RECAP_RATE} gold pieces to your account. \n` +
-                `Of course, I trust you to complete the recap submission process on your own, but please do let everyone know that you have done it. I only need one version of each adventure`;
+            const row = createLinkButton(
+                "Submit Your Recap",
+                RECAP_URL
+            );
 
-            await message.reply(reply);
+            const replyText =
+                `Farhearth is better for your safe return, ${playerName}! Your tale will be added to the Chronicle. You're helping to form Epgora's history.\n\n` +
+                `As thanks for your efforts, I've added ${RECAP_RATE} gold pieces to your account.\n` +
+                `I trust you to complete the submission process, but please let everyone know once you've done it. Only one version of each adventure is needed.`;
+
+            await message.reply({
+                content: replyText,
+                components: [row]
+            });
+
             return;
         }
 
+
         // 3) Balance request
         if (isBalanceRequest(content)) {
+            console.log('Balance request intent determined')
             const account = getAccount(message.author.id);
             const balance = account ? account.balance : 0;
 
@@ -113,6 +134,7 @@ client.on("messageCreate", async (message) => {
         const payment = isPaymentIntent(content)
 
         if (withdrawIntent && amount === null) {
+            console.log('Withdrawal intent determined')
             const reply = await buildCustomReply(
                 playerName,
                 `You wish to withdraw some gold, ${playerName}? Tell me how much, and I will prepare it.`,
@@ -124,6 +146,7 @@ client.on("messageCreate", async (message) => {
         }
 
         if (payment && amount !== null) {
+            console.log('Payment intent determined')
             const reply =
                 `I hope your purchase helps you in your duties, ${playerName}. I will remove ${amount} gold from your account and get it to ${payment.shopName} right away.`;
             await message.reply(reply);
@@ -131,6 +154,7 @@ client.on("messageCreate", async (message) => {
         }
 
         if (withdrawIntent && amount !== null) {
+            console.log('Withdrawal or payment intent determined, but not enough gold balance to complete the payment')
             const result = withdrawGold(message.author.id, playerName, amount);
 
             //Don't call for a custom message here.  Vanys's personality makes him feel really guilty and get super weird if you overdraft.
@@ -161,6 +185,7 @@ client.on("messageCreate", async (message) => {
 
         // 5a) Deposit intent but no amount found
         if (depositIntent && amount === null) {
+            console.log("Deposit intent determined, but no dollar amount found")
             const reply = await buildNoAmountReply(playerName);
             await message.reply(reply);
             return;
@@ -168,6 +193,7 @@ client.on("messageCreate", async (message) => {
 
         // 5b) Deposit intent with an amount
         if (depositIntent && amount !== null) {
+            console.log("Deposit intent determined")
             const newBalance = depositGold(message.author.id, playerName, amount);
 
             const reply = await buildTransactionalReply(
@@ -180,13 +206,49 @@ client.on("messageCreate", async (message) => {
             return;
         }
 
+        //9) Adventure Request
+        if (isAdventureRequest(content)) {
+            console.log("Adventure request intent determined")
+            const row = createLinkButton(
+                "View Available Adventures",
+                ADVENTURE_SIGNUP_URL
+            );
+
+            await message.reply({
+                content:
+                    `If you're looking to join an adventure, ${playerName}, you can find current postings here:`,
+                components: [row]
+            });
+
+            return;
+        }
+
         // 6) General small talk (not hostile, not banking, not balance, not history)
         if (!depositIntent && amount === null) {
+            console.log("Small talk intent determined.");
+
+            const topics = getSmallTalkTopicsFromKB();
+            const topicsText = topics.length
+                ? topics.map(t => `- ${t}`).join("\n")
+                : "None";
+
             const reply = await buildCustomReply(
                 playerName,
                 `Hello ${playerName}. It is good to have you here in Farhearth.`,
-                `The player is speaking to you casually or emotionally, but not about gold, deposits, balances, or history payments. Reply in character as Vanys: warm, friendly, gently humorous, curious about their well-being or any news from beyond Farhearth. Do NOT bring up gold or banking unless they do. You may mention a small, harmless detail about Farhearth's growth.`,
-                content
+                `The player is speaking to you casually or emotionally, but not about gold, deposits, balances, or history payments.
+
+                They just said: "${content}"
+
+                Respond directly to what they said in character as Vanys: warm, friendly, gently humorous, curious about their well-being or any news from beyond Farhearth.
+
+                You may mention ONE relevant detail from the world, but only if it fits naturally with what they said. You must not invent new places or facts. These are the only world details you are allowed to reference in small talk right now:
+
+                ${topicsText}
+
+                Do NOT bring up gold or banking unless they do.
+                If the player appears to be asking where to buy something, check the known shops and services. 
+                If any shop's services match what they asked for, direct them specifically to that shop by name.
+                If there is no known shop offering what they want, tell them you do not know.`
             );
 
             await message.reply(reply);
@@ -195,6 +257,7 @@ client.on("messageCreate", async (message) => {
 
         // 7) Fallback: if somehow we got here with an amount but no intent, treat as deposit safeguard
         if (amount !== null && !depositIntent) {
+            console.log("Number found, but could not determine intent.  Suggesting possible banking actions.")
             const reply = await buildCustomReply(
                 playerName,
                 `I see you mentioned a number, ${playerName}, but I'm not quite sure what you wish me to do with it.`,
@@ -204,6 +267,7 @@ client.on("messageCreate", async (message) => {
             await message.reply(reply);
             return;
         }
+
     } catch (err) {
         console.error("Error handling message:", err);
         try {

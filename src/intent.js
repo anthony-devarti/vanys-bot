@@ -215,7 +215,8 @@ function isHistoryIntent(text) {
         t.includes("record my tale") ||
         t.includes("write this down") ||
         t.includes("pay for recap") ||
-        t.includes("tell you what happened")
+        t.includes("tell you what happened") ||
+        t.includes("recap")
     );
 }
 
@@ -233,6 +234,22 @@ function extractGoldAmount(text) {
     return Number.isFinite(amount) && amount > 0 ? amount : null;
 }
 
+function isAdventureRequest(text) {
+    if (!text) return false;
+    const t = text.toLowerCase();
+
+    return (
+        t.includes("adventure") ||
+        t.includes("session") ||
+        t.includes("sign up") ||
+        t.includes("sign-up") ||
+        t.includes("signup") ||
+        t.includes("go on a quest") ||
+        t.includes("join a quest") ||
+        t.includes("join an adventure")
+    );
+}
+
 module.exports = {
     isHostile,
     isDepositIntent,
@@ -240,5 +257,6 @@ module.exports = {
     isPaymentIntent,
     isBalanceRequest,
     isHistoryIntent,
-    extractGoldAmount
+    extractGoldAmount,
+    isAdventureRequest
 };

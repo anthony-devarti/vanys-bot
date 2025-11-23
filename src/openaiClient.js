@@ -1,5 +1,35 @@
 const MODEL = process.env.OPENAI_MODEL || "gpt-4.1-mini";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const path = require("path");
+const vanysKB = require(path.join(__dirname, "./vanys-kb.json"));
+
+function getShopSummaryForPrompt() {
+    const marketplace = vanysKB.marketplace;
+    if (!marketplace || !marketplace.shops) {
+        return "There are currently no known shops.";
+    }
+
+    const lines = [];
+
+    for (const [key, shop] of Object.entries(marketplace.shops)) {
+        if (!shop || shop.discovered === false) continue;
+
+        const services = Array.isArray(shop.services) ? shop.services.join(", ") : "";
+        const short = shop.short || "";
+
+        lines.push(
+            `Shop key: ${key}\n` +
+            `  Services: ${services}\n` +
+            `  Summary: ${short}`
+        );
+    }
+
+    if (!lines.length) {
+        return "There are currently no known shops.";
+    }
+
+    return lines.join("\n\n");
+}
 
 if (!OPENAI_API_KEY) {
   console.warn("OPENAI_API_KEY is not set. Vanys will use fallback text only.");
@@ -32,6 +62,11 @@ When responding:
 - Be warm, earnest, and gently humorous.
 - Never mention being an AI, a program, or any technical systems like databases or code.
 - Never be offensive or cruel.
+You may NEVER invent new places, shops, people, factions, or landmarks. 
+You may ONLY reference entities that appear in the provided knowledge base. 
+If the knowledge base does not contain the answer, you MUST say "I'm sorry, but I don’t know."
+You cannot guess or improvise world details.
+Personal opinions are allowed, but world facts cannot be invented.
 `.trim();
 
 
@@ -92,17 +127,27 @@ async function buildNoAmountReply(playerName) {
 }
 
 async function buildCustomReply(playerName, fallbackText, prompt) {
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    {
-      role: "user",
-      content: `Player ${playerName} is asking about their balance. ${prompt}`
-    }
-  ];
+    const shopSummary = getShopSummaryForPrompt();
 
-  const reply = await callOpenAI(messages);
-  return reply || fallbackText;
+    const messages = [
+        {
+            role: "system",
+            content: SYSTEM_PROMPT
+        },
+        {
+            role: "user",
+            content:
+                `Player ${playerName} is speaking to you in Discord.\n\n` +
+                `Here are the ONLY shops you know about and what they offer. You may NOT mention any shop that is not in this list:\n\n` +
+                `${shopSummary}\n\n` +
+                prompt
+        }
+    ];
+
+    const reply = await callOpenAI(messages);
+    return reply || fallbackText;
 }
+
 
 module.exports = {
   buildTransactionalReply,

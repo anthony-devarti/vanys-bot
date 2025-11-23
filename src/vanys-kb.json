@@ -1,0 +1,163 @@
+{
+    "locations": {
+        "farhearth": {
+            "short": "A fortified coastal settlement and the starting point for most known exploration.",
+            "detail": "Farhearth sits on a low rise above the surf, its timber palisade glowing warm in lantern light while the wind from the Blearwold rustles at its back. Inside the walls, the smell of bread, smoke, and sea-salt creates a sense of calm that feels almost unnatural given how close the wild truly is. The streets are small but orderly, filled with the noise of hammers, gossip, and the comfortable routines of people who know danger waits just beyond the boundary. Outside the gates the trees close in, the air turns cold, and the land feels old and watchful. Farhearth endures because it must, a lone pocket of warmth pressed against the edge of an endless, indifferent frontier.",
+            "discovered": true
+        },
+        "skalethron_keep": {
+            "short": "An impossibly ancient fortress carved directly into the mountains.",
+            "detail": "A colossal fortress carved into the mountain face—part citadel, part monastery, part machine. No living culture claims to have built it. Architecture is impossibly old: seams too perfect for primitive tools, stone panels fused with impossible precision. No banners, no bodies, no collapse—only immense doors sealed from within.",
+            "discovered": true
+        },
+        "grassy_peninsula": {
+            "short": "The large peninsula upon which Farhearth stands.",
+            "detail": "The Grassy Peninsula is the main land mass on which Farhearth was built. Knowledge is extremely limited until more of it is explored.",
+            "discovered": true
+        },
+        "southwind_isle": {
+            "short": "An independent island nation south of the Grassy Peninsula.",
+            "detail": "A major trading partner for Farhearth. Southwind Isle can be seen from western Farhearth on a clear day. They are ruthless traders with a strong independent streak. Their isolation provides freedom from the influence of Epgora's factions.",
+            "discovered": true
+        },
+        "southwind_upon_the_sea": {
+            "short": "A small fishing village north of Southwind Isle.",
+            "detail": "A hesitant trading partner west of Farhearth. They prefer to avoid public dealings, but sometimes trade for alcohol.",
+            "discovered": true
+        },
+        "landfall_isle": {
+            "short": "A small rocky islet north of Farhearth.",
+            "detail": "The rocky shores make landing dangerous. Attempting to bring a ship in close is considered nearly suicidal.",
+            "discovered": true
+        },
+        "eastlight_upon_the_sea": {
+            "short": "Farhearth's closest trading partner.",
+            "detail": "Many residents speak Common, though they may pretend not to in order to avoid upsetting the Tidebound. Their trade relationship with Farhearth is strong but cautious.",
+            "discovered": true
+        }
+    },
+    "factions": {
+        "tidebound": {
+            "short": "A feared sea-obsessed faction from the northern peninsula.",
+            "detail": "Rumored to be based in the northern peninsula. Obsessed with the sea. Feared by trading caravans for their vicious treatment of 'outsiders.'",
+            "discovered": true
+        },
+        "caeluthar_communion": {
+            "short": "A reclusive woodland faction south and west of Farhearth.",
+            "detail": "The Caeluthar live deep within the old forests. They paint their skin with sap pigments, wear bark-woven cloaks, and speak softly so as not to “wake the roots.” Mostly elves with some humans; independent elves have visited Farhearth before.",
+            "discovered": true
+        },
+        "redmark_clans": {
+            "short": "A little-known people west of the mountains.",
+            "detail": "Rumored to be based west of the mountain range. Those encountered were uninterested in trade. Little else is known.",
+            "discovered": true
+        }
+    },
+    "language": {
+        "epgoran_language": {
+            "short": "A harsh and unsettling language poorly understood by Farhearth.  Called Epgoran for lack of a better word",
+            "detail": "Little is known about the language of Epgora. Vanys thinks it sounds like a person drowning, unpleasant to hear. Translators in Farhearth are disgraced natives working out of desperation. They have no loyalty; stories of translators betraying travelers to the Tidebound for a pittance are common.",
+            "discovered": true
+        },
+        "common": {
+            "short": "The language spoken in farhearth and by the cooperative neighbors",
+            "detail": "Natives are often nervous to speak common outside of Farhearth, as they often are reluctant to show too much public kindness to the settlers",
+            "discovered": true
+        },
+        "Tidal": {
+            "short": "A harsh and unsettling language poorly understood by Farhearth.  Previously known as Epgoran",
+            "detail": "Little is known about the language of Epgora. Vanys thinks it sounds like a person drowning, unpleasant to hear. Translators in Farhearth are disgraced natives working out of desperation. They have no loyalty; stories of translators betraying travelers to the Tidebound for a pittance are common.",
+            "discovered": false
+        }
+    },
+    "temples": {
+        "epgoran_temples": {
+            "short": "Mysterious temples scattered across the continent.",
+            "detail": "Translators whisper about temples throughout Epgora and fear them deeply.",
+            "discovered": true
+        }
+    },
+    "marketplace": {
+        "short": "Farhearth’s central trading and service district.",
+        "detail": "The marketplace of Farhearth is home to several specialized shops and services, ranging from adventuring supplies to weapons, unusual animals, translators, and magical assistance.",
+        "discovered": true,
+        "shops": {
+            "palmettos_supply_inc": {
+                "short": "A well-stocked general goods store for adventurers.",
+                "detail": "Palmetto's Supply INC carries the basic travel gear and adventuring supplies most settlers need before leaving the walls.",
+                "services": [
+                    "supplies",
+                    "adventuring supplies",
+                    "general goods",
+                    "travel gear",
+                    "packs",
+                    "rations"
+                ],
+                "discovered": true
+            },
+            "unusual_franks_bazaar": {
+                "short": "A shop for mounts and unusual animals.",
+                "detail": "Unusual Frank's Bazaar of Animals for You to Be On Top Of provides mounts, pack animals, and small vehicles suitable for travel across the peninsula.",
+                "services": [
+                    "mounts",
+                    "animals",
+                    "creatures",
+                    "beasts",
+                    "pack animals",
+                    "small vehicles",
+                    "transport"
+                ],
+                "discovered": true
+            },
+            "sylvias_weapons_emporium": {
+                "short": "The primary weapon dealer in Farhearth.",
+                "detail": "Sylvia's Weapons Emporium sells blades, bows, and other martial gear for adventurers preparing to venture into the wilds.",
+                "services": [
+                    "weapons",
+                    "blades",
+                    "swords",
+                    "axes",
+                    "bows",
+                    "martial gear",
+                    "arms"
+                ],
+                "discovered": true
+            },
+            "the_curiosity_shoppe": {
+                "short": "A collection of unusual or rare items.",
+                "detail": "The Curiosity Shoppe specializes in oddities, strange trinkets, and items that don’t fit neatly into any other shop’s inventory.",
+                "services": [
+                    "curiosities",
+                    "oddities",
+                    "unusual items",
+                    "rare items"
+                ],
+                "discovered": true
+            },
+            "mafiosa_beths_translation_service": {
+                "short": "A translation and interpreter service run by disgraced locals.",
+                "detail": "Mafiosa Beth's Translation Service hires translators knowledgeable in the native languages of Epgora. They work out of desperation and are known to be untrustworthy.",
+                "services": [
+                    "translation",
+                    "translator",
+                    "interpreting",
+                    "language help",
+                    "epgoran language"
+                ],
+                "discovered": true
+            },
+            "the_temple": {
+                "short": "A place for healing and magical aid.",
+                "detail": "The Temple offers healing services and other magical support. Though the priests know little of the wider continent, their abilities are widely respected.",
+                "services": [
+                    "healing",
+                    "magic",
+                    "magical services",
+                    "restoration",
+                    "cleric services"
+                ],
+                "discovered": true
+            }
+        }
+    }
+}
