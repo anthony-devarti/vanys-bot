@@ -78,7 +78,7 @@
         }
     },
     "marketplace": {
-        "short": "Farhearth’s central trading and service district.",
+        "short": "Farhearth's central trading and service district.",
         "detail": "The marketplace of Farhearth is home to several specialized shops and services, ranging from adventuring supplies to weapons, unusual animals, translators, and magical assistance.",
         "discovered": true,
         "shops": {
@@ -158,6 +158,85 @@
                 ],
                 "discovered": true
             }
+        }
+    },
+    "tomes": {
+        "The Joy of Extradimensional Spaces": {
+            "short": "The Joy of Extradimensional Spaces",
+            "detail": "Where did the sage go? Oh, okay – now, how do we get out?",
+            "discovered": true
+        },
+        "Mazfroth's Mighty Digression": {
+            "short": "Mazfroth's Mighty Digression",
+            "detail": "Where did these stupid bookmonsters come from?",
+            "discovered": false
+        },
+        "Book of the Raven": {
+            "short": "Book of the Raven",
+            "detail": "What’s at the end of the treasure map?",
+            "discovered": false
+        },
+        "A Deep and Creeping Darkness": {
+            "short": "A Deep and Creeping Darkness",
+            "detail": "What happened to bring ruin to the town?",
+            "discovered": false
+        },
+        "Shemshine's Bedtime Rhyme": {
+            "short": "Shemshine's Bedtime Rhyme",
+            "detail": "How do I get this song out of my head before it's too late?",
+            "discovered": false
+        },
+        "The Price of Beauty": {
+            "short": "The Price of Beauty",
+            "detail": "Where did that dwarf go? Or generally, what is not as it appears in this place?",
+            "discovered": false
+        },
+        "Book of Cylinders": {
+            "short": "Book of Cylinders",
+            "detail": "What happened to the villagefolk?",
+            "discovered": false
+        },
+        "Sarah of Yellowcrest Manor": {
+            "short": "Sarah of Yellowcrest Manor",
+            "detail": "Who murdered this ghost girl?",
+            "discovered": false
+        },
+        "Lore of Lurue": {
+            "short": "Lore of Lurue",
+            "detail": "A living storybook drives you towards a terrifying end.",
+            "discovered": false
+        },
+        "Kandlekeep Dokonstruction": {
+            "short": "Kandlekeep Dokonstruction",
+            "detail": "What was that Oerth-shattering kaboom?",
+            "discovered": false
+        },
+        "Zikran's Zephyrean Tome": {
+            "short": "Zikran's Zephyrean Tome",
+            "detail": "Where is Zikran?",
+            "discovered": false
+        },
+        "The Curious Tale of Wisteria Vale": {
+            "short": "The Curious Tale of Wisteria Vale",
+            "detail": "Why is there an uninvited guest in this pocket dimension?",
+            "discovered": false
+        },
+        "The Canopic Being": {
+            "short": "The Canopic Being",
+            "detail": "How did the party's names end up in a book with a nefarious legacy? ",
+            "discovered": false
+        }
+    },
+    "items":{
+        "tomes":{
+            "short": "Tomes that Vanys wants to collect for Farhearth. Vanys will ask players to find these and bring them back.",
+            "detail": "Vanys is searching for a series of unusual tomes scattered throughout the continent. They seem to be powerful occult objects with the ability to create small pocket dimensions. Collecting all 12 of them will allow a lot of power to consolidate in Farhearth.",
+            "discovered": true
+        },
+        "hearthstone": {
+            "short": "Legend tells of a stone that, when used, allows the user to return safely home",
+            "detail": "Legend says that the stone smells like fresh baked bread, and everyone needs one for it to work.",
+            "discovered": true
         }
     }
 }
