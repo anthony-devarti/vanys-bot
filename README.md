@@ -6,7 +6,7 @@
 
 Vanys is an in-character Discord NPC who handles:
 
-* Gold banking (deposits, withdrawals, balances)
+* Factual lore information management
 * Payment for adventure recaps
 * General conversation and small talk
 
@@ -22,49 +22,20 @@ If you do not mention him, he will ignore the message.
 
 ## What Users Can Ask Vanys
 
-### Check Your Balance
-
-Ask naturally:
-
-```
-@Vanys how much gold do I have?
-@Vanys what's my balance?
-```
-
-He replies with your current balance.
-
-### Deposit Gold
-
-```
-@Vanys deposit 20
-@Vanys put 15 gold in my account
-```
-
-If no amount is provided, he will ask for clarification.
-
-### Withdraw Gold
-
-```
-@Vanys withdraw 10
-@Vanys I need 25 gold
-```
-
-If your balance is insufficient, he tells you.
-
 ### Recap Payouts
 
 If you mention giving a recap, Vanys automatically:
 
-* Pays **15 gold**
-* Gives you the recap submission link
+* Provides you with a link to submit a recap/adventure report
+* Gives you a link to the marketplace to claim your reward for doing so
 
-### General Small Talk
+### Factual Queries or General Small Talk
 
-If you mention him without any banking intent, he responds warmly in character.
+If you mention him without any Recap intent, he will check his KB in order to answer as best he can.  If what you are asking is just small talk, Vanys will respond politely.
 
 ### Hostile Messages
 
-If you speak rudely or aggressively, he reacts in character and performs no banking actions.
+If you speak rudely or aggressively, he reacts in character and it really hurts his feelings.
 
 ---
 
@@ -130,11 +101,10 @@ npm start
 1. User mentions Vanys.
 2. Message is evaluated for multiple intents:
 
-   * Deposit
-   * Withdrawal
-   * Balance
    * Recap
    * Hostility
+   * Factual Requests
+   * General Help
    * General conversation
 3. Matching intent triggers appropriate logic.
 4. Database updates occur via `db.js`.
