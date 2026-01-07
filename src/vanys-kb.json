@@ -257,14 +257,41 @@
             "detail": "To accomplish this, players can simply ask Vanys, and he will provide them with the links necessary.  They are to write the report, then follow the link to the marketplace to claim their gold",
             "discovered": true
         },
-        "shopping" : {
+        "shopping": {
             "short": "Players can shop at various stores in Farhearth's marketplace.",
             "detail": "Vanys can direct players to the various shops in Farhearth's marketplace, where they can purchase supplies, mounts, weapons, curiosities, translation services, healing, and baked goods.",
             "discovered": true
         },
-        "money" : {
+        "money": {
             "short": "It is important to avoid keeping large amounts of money on hand in Epgora.",
             "detail": "Vanys advises players to keep only small amounts of money on hand while in Epgora, as theft and robbery are common. Instead, they should use secure storage options available in Farhearth's marketplace.  The Bank of Vanys is a safe place to store money.",
+            "discovered": true
+        },
+        "banking" : {
+            "short": "Players can use the Bank of Vanys to securely store their money.",
+            "detail": "Use the Bank of Vanys in Farhearth's marketplace to securely store money. Simply purchase a bank note for 100GP, and you can redeem it later for your funds. This helps keep your money safe while adventuring in Epgora.  If you were to die, that money is accessible to your next of kin (Any other character linked with your discord user)",
+            "discovered": true
+        }
+    },
+    "westmarches_website": {
+        "character_creation": {
+            "short": "Players can create and manage their characters on the Westmarches website.",
+            "detail": "Vanys can guide players through the process of creating characters. Players must follow some guidelines: Their character must be level 1, all classes and races selected must be done from the 2024 player's handbook, no customization (at least at first), and they must have a digital version of their sheet.  They can go to the westmarches.games website and add their character from the Characters tab.",
+            "discovered": true
+        },
+        "westmarches_issues": {
+            "short": "If players encounter any issues with the Westmarches website, they can reach out for help.",
+            "detail": "Most issues can be resolved by ensuring that you are signed in with Discord to the westmarches.games website, or viewing the site through a non-discord browser. If problems persist, players can use the GM tag for assistance.",
+            "discovered": true
+        },
+        "how_to_use": {
+            "short": "Vanys can help players navigate and use the Westmarches website effectively.",
+            "detail": "The Westmarches website is the central hub for organizing play and maintaining the shared campaign state. Players use it to sign up for upcoming adventures, view session availability, and coordinate with other players and GMs. After sessions, the site is used to distribute and record rewards such as gold, items, and experience, ensuring everything stays transparent and consistent.\n\nThe website also tracks character wealth and expenditures over time, helping players manage money earned during expeditions. It hosts the campaign wiki, which contains world lore, factions, locations, and discoveries made during play. Finally, the interactive map of Epgora shows known regions, explored routes, and points of interest, updating as the world is uncovered through play. Together, these tools keep the Westmarches campaign organized, persistent, and player driven.",
+            "discovered": true
+        },
+        "no_sign_up_on_adventure": {
+            "short": "Players may not see the sign up button when they check for an adventure.",
+            "detail": "This happens when a browser is opened through Discord.  To fix this, players should copy the link and open it in a non-discord browser.  If the issue persists, they can use a desktop or just use the GM tag to have them added to the adventure.",
             "discovered": true
         }
     }
