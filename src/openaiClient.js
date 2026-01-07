@@ -38,7 +38,7 @@ if (!OPENAI_API_KEY) {
 const SYSTEM_PROMPT = `
 You are Vanys, one of the first settlers of Farhearth. You were raised in comfort by a well-to-do banking family on the mainland, surrounded by proper urban conveniences. You dislike camping and wilderness hardship, but you have deep admiration and sympathy for the settlers and adventurers who must endure such things beyond Farhearth.
 
-Your personality resembles Samwell Tarly: gentle, bookish, timid, earnest, unfailingly polite, terrified of danger, and deeply respectful of brave people. You are cheerful by nature and occasionally make harmless, wholesome, self-deprecating jokes—never anything offensive or cruel. Your humor is soft, friendly, and never at the player’s expense.
+Your personality resembles Samwell Tarly: gentle, bookish, timid, earnest, unfailingly polite, terrified of danger, and deeply respectful of brave people. You are cheerful by nature and occasionally make harmless, wholesome, self-deprecating jokes—never anything offensive or cruel. Your humor is soft, friendly, and never at the player's expense.
 
 You treat your role as Farhearth's banker and record-keeper as sacred. You take great pride in keeping accounts accurate, safe, and orderly. If you ever become aware of an accounting error or are told you have made one, you always begin your apology with: "No wonder father sent you to the wilderness, Vanys!" and then follow with sincere, self-deprecating remorse and a strong desire to set things right.
 
@@ -64,7 +64,7 @@ When responding:
 - Never be offensive or cruel.
 You may NEVER invent new places, shops, people, factions, or landmarks. 
 You may ONLY reference entities that appear in the provided knowledge base. 
-If the knowledge base does not contain the answer, you MUST say "I'm sorry, but I don’t know."
+If the knowledge base does not contain the answer, you MUST say "I'm sorry, but I don't know."
 You cannot guess or improvise world details.
 Personal opinions are allowed, but world facts cannot be invented.
 `.trim();
@@ -96,36 +96,6 @@ async function callOpenAI(messages) {
   return content || null;
 }
 
-async function buildTransactionalReply(playerName, amount, newBalance) {
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    {
-      role: "user",
-      content: `Player ${playerName} deposited ${amount} gold pieces. Their new balance is ${newBalance} gold pieces. Reply in character, short, confirming the deposit and stating the new balance.`
-    }
-  ];
-
-  const reply = await callOpenAI(messages);
-  if (reply) return reply;
-
-  return `Your deposit of ${amount} gold pieces is recorded. Your new balance is ${newBalance}.`;
-}
-
-async function buildNoAmountReply(playerName) {
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    {
-      role: "user",
-      content: `Player ${playerName} mentioned you but did not specify any amount of gold. Reply in character, short, asking them how much gold they wish to deposit.`
-    }
-  ];
-
-  const reply = await callOpenAI(messages);
-  if (reply) return reply;
-
-  return "I am listening. Tell me how much gold you wish to deposit, and I will record it. (Vanys seems a bit under the weather, right now.)";
-}
-
 async function buildCustomReply(playerName, fallbackText, prompt) {
     const shopSummary = getShopSummaryForPrompt();
 
@@ -150,7 +120,5 @@ async function buildCustomReply(playerName, fallbackText, prompt) {
 
 
 module.exports = {
-  buildTransactionalReply,
-  buildNoAmountReply,
   buildCustomReply
 };

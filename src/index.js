@@ -1,26 +1,17 @@
 require("dotenv").config();
 
 const { Client, GatewayIntentBits } = require("discord.js");
-const { depositGold, getAccount, withdrawGold } = require("./db");
-const {
-    buildTransactionalReply,
-    buildNoAmountReply,
-    buildCustomReply
-} = require("./openaiClient");
+// openaiClient and db helpers are used by handlers; not needed directly here
 const {
     isHostile,
-    isDepositIntent,
-    isWithdrawIntent,
-    isPaymentIntent,
-    isBalanceRequest,
+    isBankingIntent,
     isHistoryIntent,
-    extractGoldAmount,
     isAdventureRequest
 } = require("./intent");
 const path = require("path");
 const vanysKB = require(path.join(__dirname, "./vanys-kb.json"));
 const { createLinkButton } = require("./buttons");
-const { ADVENTURE_SIGNUP_URL, RECAP_URL, RECAP_RATE } = require("./APPCONSTANTS")
+const { ADVENTURE_SIGNUP_URL, RECAP_URL, RECAP_RATE, MARKETPLACE_URL } = require("./APPCONSTANTS")
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
@@ -59,13 +50,9 @@ function getSmallTalkTopicsFromKB() {
 //Message Handler
 const handleHostile = require("./handlers/hostile");
 const handleHistory = require("./handlers/history");
-const handleBalance = require("./handlers/balance");
-const handleWithdrawRequest = require("./handlers/withdrawRequest");
-const handleBanking = require("./handlers/banking");
-const handleDeposit = require("./handlers/deposit");
+// banking handler no longer used for in-chat payments; marketplace redirects are used instead
 const handleAdventure = require("./handlers/adventure");
 const handleSmallTalk = require("./handlers/smallTalk");
-const handleFallbackNumber = require("./handlers/fallbackNumber");
 
 client.on("messageCreate", async (message) => {
     try {
@@ -81,7 +68,6 @@ client.on("messageCreate", async (message) => {
             message.author.globalName ||
             message.author.username;
 
-        const amount = extractGoldAmount(content);
         const hostile = await isHostile(content);
 
         // 1) Hostile / abusive messages
@@ -101,82 +87,39 @@ client.on("messageCreate", async (message) => {
         }
 
 
-        // 3) Balance request
-        if (isBalanceRequest(content)) {
-            // Intent recognized: balance inquiry
-            console.log('Intent recognized: balance');
-            const handled = await handleBalance(message, { playerName });
-            if (handled) return;
+        // 4) Payments to shops handled via Marketplace; in-chat payments disabled
+
+        // 5) Banking intents (deposit/withdraw) — redirect users to marketplace
+        if (isBankingIntent(content)) {
+            console.log('Intent recognized: banking -> redirect to marketplace');
+            const row = createLinkButton('Bank of Vanys — Marketplace', MARKETPLACE_URL);
+            const replyText =
+                "To deposit or withdraw gold, please use the 'Bank of Vanys' option in the Marketplace.\n\n" +
+                "Use the link below to open the Marketplace and select the Bank of Vanys to safely manage your funds.";
+
+            await message.reply({ content: replyText, components: [row] });
+            return;
         }
 
-        // 4) Banking: withdrawal intent
-        const withdrawIntent = isWithdrawIntent(content);
-        const payment = isPaymentIntent(content)
-
-        if (withdrawIntent && amount === null) {
-            // Intent recognized: withdraw (amount needed)
-            console.log('Intent recognized: withdraw -> prompt for amount');
-            const handled = await handleWithdrawRequest(message, { playerName });
-            if (handled) return;
-        }
-
-        if (payment && amount !== null) {
-            // Intent recognized: payment with amount
-            console.log('Intent recognized: payment');
-            const handled = await handleBanking(message, { playerName, amount, payment, withdrawIntent });
-            if (handled) return;
-        }
-
-        if (withdrawIntent && amount !== null) {
-            // Intent recognized: withdraw with amount
-            console.log('Intent recognized: withdraw');
-            const handled = await handleBanking(message, { playerName, amount, payment, withdrawIntent });
-            if (handled) return;
-        }
-
-        // 5) Banking: deposit intent
-        const depositIntent = isDepositIntent(content);
-
-        // 5a) Deposit intent but no amount found
-        if (depositIntent && amount === null) {
-            console.log("Intent recognized: deposit -> prompt for amount")
-            const handled = await handleDeposit(message, { playerName, amount, depositIntent });
-            if (handled) return;
-        }
-
-        // 5b) Deposit intent with an amount
-        if (depositIntent && amount !== null) {
-            console.log("Intent recognized: deposit");
-            const handled = await handleDeposit(message, { playerName, amount, depositIntent });
-            if (handled) return;
-        }
-
-        //9) Adventure Request
+        // 7) Adventure Request — send adventure signup link
         if (isAdventureRequest(content)) {
-            console.log("Intent recognized: adventure request")
-            const handled = await handleAdventure(message, { playerName });
-            if (handled) return;
+            console.log("Intent recognized: adventure request -> adventure signup link")
+            const row = createLinkButton('Adventures — Sign Up', ADVENTURE_SIGNUP_URL);
+            const replyText = "If you'd like to join an upcoming adventure, please use the Adventures link to view and sign up.";
+            await message.reply({ content: replyText, components: [row] });
+            return;
         }
 
-        // 6) General small talk (not hostile, not banking, not balance, not history)
-        if (!depositIntent && amount === null) {
-            console.log("Intent recognized: small talk");
-            const handled = await handleSmallTalk(message, { playerName, content, getSmallTalkTopicsFromKB });
-            if (handled) return;
-        }
-
-        // 7) Fallback: if somehow we got here with an amount but no intent, treat as deposit safeguard
-        if (amount !== null && !depositIntent) {
-            console.log("Intent recognized: ambiguous numeric mention");
-            const handled = await handleFallbackNumber(message, { playerName });
-            if (handled) return;
-        }
+        // 8) Fallback: Knowledge-base-backed reply / small talk
+        console.log('No specific intent matched — falling back to KB/OpenAI small talk');
+        const handled = await handleSmallTalk(message, { playerName, content, getSmallTalkTopicsFromKB });
+        if (handled) return;
 
     } catch (err) {
         console.error("Error handling message:", err);
         try {
             await message.reply(
-                'No wonder father sent you to the wilderness, Vanys! I seem to have blundered your account just now. Please give me a moment and try again, and I will make absolutely certain it is correct.'
+                'No wonder father sent you to the wilderness, Vanys! I seem to have make a terrible blunder just now. Please give me a moment and try again, and I will make absolutely certain it is correct.'
             );
         } catch { }
     }

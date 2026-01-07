@@ -17,12 +17,12 @@
         },
         "southwind_isle": {
             "short": "An independent island nation south of the Grassy Peninsula.",
-            "detail": "A major trading partner for Farhearth. Southwind Isle can be seen from western Farhearth on a clear day. They are ruthless traders with a strong independent streak. Their isolation provides freedom from the influence of Epgora's factions.",
+            "detail": "A hopeful trading partner for Farhearth. Southwind Isle can be seen from western Farhearth on a clear day. They are ruthless traders with a strong independent streak. Their isolation provides freedom from the influence of Epgora's factions.",
             "discovered": true
         },
         "southwind_upon_the_sea": {
             "short": "A small fishing village north of Southwind Isle.",
-            "detail": "A hesitant trading partner west of Farhearth. They prefer to avoid public dealings, but sometimes trade for alcohol.",
+            "detail": "A new and excited trading partner west of Farhearth. They are where all of Farhearth's recent tropical products come from.  Try the Chocolate Throckmortons from there.  They are delicious!",
             "discovered": true
         },
         "landfall_isle": {
@@ -39,7 +39,7 @@
     "factions": {
         "tidebound": {
             "short": "A feared sea-obsessed faction from the northern peninsula.",
-            "detail": "Rumored to be based in the northern peninsula. Obsessed with the sea. Feared by trading caravans for their vicious treatment of 'outsiders.'",
+            "detail": "A terrifying faction, rumored to be based in the northern peninsula. Obsessed with the sea. Feared by trading caravans for their vicious treatment of outsiders and friends alike.  There are many legends of their creative use of human machinery, in a terrifyingly literal sense.",
             "discovered": true
         },
         "caeluthar_communion": {
@@ -157,6 +157,18 @@
                     "cleric services"
                 ],
                 "discovered": true
+            },
+            "brizbane's_bakehouse": {
+                "short": "A bakery specializing in foreign tropical delicacies of the South.",
+                "detail": "Brizbane's Bakehouse is a cozy bakery in Farhearth that specializes in exotic pastries and baked goods from the southern regions.",
+                "services": [
+                    "baked goods",
+                    "pastries",
+                    "tropical delicacies",
+                    "southern specialties",
+                    ""
+                ],
+                "discovered": true
             }
         }
     },
@@ -227,8 +239,8 @@
             "discovered": false
         }
     },
-    "items":{
-        "tomes":{
+    "items": {
+        "tomes": {
             "short": "Tomes that Vanys wants to collect for Farhearth. Vanys will ask players to find these and bring them back.",
             "detail": "Vanys is searching for a series of unusual tomes scattered throughout the continent. They seem to be powerful occult objects with the ability to create small pocket dimensions. Collecting all 12 of them will allow a lot of power to consolidate in Farhearth.",
             "discovered": true
@@ -236,6 +248,23 @@
         "hearthstone": {
             "short": "Legend tells of a stone that, when used, allows the user to return safely home",
             "detail": "Legend says that the stone smells like fresh baked bread, and everyone needs one for it to work.",
+            "discovered": true
+        }
+    },
+    "farhearth_activities": {
+        "selling_adventure_reports": {
+            "short": "Players can sell their adventure reports to Vanys for Farhearth's records.",
+            "detail": "To accomplish this, players can simply ask Vanys, and he will provide them with the links necessary.  They are to write the report, then follow the link to the marketplace to claim their gold",
+            "discovered": true
+        },
+        "shopping" : {
+            "short": "Players can shop at various stores in Farhearth's marketplace.",
+            "detail": "Vanys can direct players to the various shops in Farhearth's marketplace, where they can purchase supplies, mounts, weapons, curiosities, translation services, healing, and baked goods.",
+            "discovered": true
+        },
+        "money" : {
+            "short": "It is important to avoid keeping large amounts of money on hand in Epgora.",
+            "detail": "Vanys advises players to keep only small amounts of money on hand while in Epgora, as theft and robbery are common. Instead, they should use secure storage options available in Farhearth's marketplace.  The Bank of Vanys is a safe place to store money.",
             "discovered": true
         }
     }
