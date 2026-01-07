@@ -28,9 +28,23 @@ const client = new Client({
     ]
 });
 
+const { execSync } = require("child_process");
+
+//startup message showing last main update for version tracking (I refuse to do semantic versioning, no one else is going to see it)
 client.once("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`);
+  let mainUpdated = "unknown";
+  try {
+    execSync("git fetch -q origin main");
+    mainUpdated = execSync("git log -1 --format=%cs origin/main")
+      .toString()
+      .trim();
+  } catch {}
+
+  console.log(
+    `Logged in as ${client.user.tag} | main last updated: ${mainUpdated}`
+  );
 });
+
 
 function getSmallTalkTopicsFromKB() {
     const topics = [];
