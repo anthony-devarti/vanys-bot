@@ -114,9 +114,7 @@ function getSmallTalkTopicsFromKB() {
 
 //Message Handler
 const handleHostile = require("./handlers/hostile");
-const handleHistory = require("./handlers/history");
 // banking handler no longer used for in-chat payments; marketplace redirects are used instead
-const handleAdventure = require("./handlers/adventure");
 const handleSmallTalk = require("./handlers/smallTalk");
 
 client.on("messageCreate", async (message) => {
@@ -147,10 +145,27 @@ client.on("messageCreate", async (message) => {
         if (isHistoryIntent(content)) {
             // Intent recognized: summary/recap
             console.log('Intent recognized: history/recap');
-            const handled = await handleHistory(message, { playerName });
-            if (handled) return;
-        }
+            console.info({
+                action: 'recap_buttons_shown',
+                user_id: message.author.id,
+                playerName,
+                suggestedReward: RECAP_RATE
+            });
 
+            const rowRecap = createLinkButton("Create an Adventure Report", RECAP_URL);
+            const rowCollect = createLinkButton("Collect Reward", MARKETPLACE_URL);
+
+            const replyText =
+                `Farhearth is better for your safe return, ${playerName}! Your tale will be added to the Chronicle. You're helping to form Epgora's history.\n\n` +
+                `Be sure to select "Adventure Report" as the page type and fill in all fields. \n\n` +
+                `The discord browser may not treat you as being signed in, so you may need to open the link in a normal browser to continue. \n\n` +
+                `As thanks for your efforts, you may collect ${RECAP_RATE} gold pieces by using the marketplace link below. \n\n` +
+                `Just go to Downtime Activities and choose the "Sell a recap" option.\n` +
+                `Please complete the submission process; only one version of each adventure is needed.`;
+
+            await message.reply({ content: replyText, components: [rowRecap, rowCollect] });
+            return true
+        }
 
         // 4) Payments to shops handled via Marketplace; in-chat payments disabled
 

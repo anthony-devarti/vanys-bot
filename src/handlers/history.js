@@ -20,4 +20,5 @@ module.exports = async function handleHistory(message, context) {
     `Please complete the submission process; only one version of each adventure is needed.`;
 
   await message.reply({ content: replyText, components: [rowRecap, rowCollect] });
+  return true
 };
